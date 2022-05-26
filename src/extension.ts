@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 
 					if (token.nesting === 1) {
-						return `<div class="${pluginKeyword}">${process(src)}`;
+						return `<div class="${pluginKeyword}"${process(src)}`;
 					} else {
 						return '</div>';
 					}
@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const highlight = md.options.highlight;
 			md.options.highlight = (code: any, lang: string) => {
 				if (lang && lang.match(/\bchess\b/i)) {
-					return `<pre style="all:unset;"><div class="${pluginKeyword}" style="text-align:center;">${process(code)}</div></pre>`;
+					return `<pre style="all:unset;"><div class="${pluginKeyword}"${process(code)}</div></pre>`;
 				}
 				return highlight(code, lang);
 			};
@@ -63,11 +63,114 @@ export function activate(context: vscode.ExtensionContext) {
 	};
 }
 
-const process = (/** @type {string} */source: string) =>
-//    source;
-source = 
-`<svg width="50%" height="50%" viewBox="0 0 1000 1000">
-	<rect x="100" y="50" width="800" height="800" fill="OliveDrab" />
+function process (source: string)
+{
+	var boardTheme: string = parseBoardTheme(source);
+	var boardAlign: string = parseBoardAlign(source);
+	var boardSize: string = parseBoardSize(source);
+	var boardNumbers: boolean = parseBoardNumbers(source);
+	var boardLetters: boolean = parseBoardLetters(source);
+	var boardTitle: string = parseBoardTitle(source);
+	var boardTitle: string = parseBoardNotes(source);
+	var boardMoves: string = parseBoardMoves(source);
+	return (
+	` style="text-align: `+ boardAlign + `;">` +
+	`<svg` +
+	`   width = "` + boardSize + `"` +
+	`   height = "` + boardSize + `"`+
+	`   viewBox = "0 0 1000 1000"` +
+	`>` +
+	generateBoard("") +	
+	`</svg>`);
+}
+
+function parseBoardLetters (input: string)
+{
+	return parseSettings(input, "letters") === 'true';
+}
+
+function parseBoardNumbers (input: string)
+{
+	return parseSettings(input, "numbers") === 'true';
+}
+
+function parseBoardTheme (input: string)
+{
+	var stringVar: string = parseSettings (input, "theme");
+	var returnVar = (stringVar.match(
+		/^[/s]*(base|dark|light)$/
+	) ?? ["base"])[0];
+	return returnVar;
+}
+
+function parseBoardAlign (input: string)
+{
+	var stringVar: string = parseSettings (input, "align");
+	var returnVar = (stringVar.match(
+		/^[/s]*(left|center|right|justify)$/
+	) ?? ["center"])[0];
+	return returnVar;
+}
+
+function parseBoardSize (input: string)
+{
+	var returnVar: string = "50%";
+	var stringVar: string = parseSettings (input, "size");
+	var numericVar: number = 50;
+	var unitsVar :string = "%";
+	if (stringVar !== null)
+	{
+		numericVar = Number((stringVar.match(/^[\s]*([\d]+)/g) ?? "50"));
+		unitsVar = (stringVar.match(
+			/(cm|mm|in|px|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax|%)$/
+		) ?? [""])[0];
+	}
+	if (!(isNaN((numericVar))) && unitsVar !== "")
+	{
+		if (unitsVar !== null)
+		{
+			returnVar = numericVar.toString() + unitsVar;
+		}
+	}
+	return returnVar;
+}
+
+function parseBoardMoves (input: string)
+{
+	var stringVar: string = parseSettings (input, "moves") ?? "";
+	var returnVar = stringVar; //add checking later
+	return returnVar;
+}
+
+function parseBoardTitle (input: string)
+{
+	var stringVar: string = parseSettings (input, "title") ?? "";
+	var returnVar = stringVar; //add checking later
+	return returnVar;
+}
+
+function parseBoardNotes (input: string)
+{
+	var stringVar: string = parseSettings (input, "notes") ?? "";
+	var returnVar = stringVar; //add checking later
+	return returnVar;
+}
+
+function parseSettings (input: string, varName: string)
+{
+	var returnVar: string = "";
+	var regexExpression = new RegExp(varName.toLowerCase() + '[\\s]+(?<setting>.*)');
+	var regexResult = input.toLowerCase().match(regexExpression);
+	if ((regexResult !== null) && (regexResult.groups?.setting))
+	{
+		(returnVar = regexResult.groups?.setting);
+	}
+	return returnVar;
+}
+
+const generateBoard = (/** @type {string} */ source: string) =>
+	source =
+	`<rect x="100" y="50" width="800" height="800" fill="OliveDrab" />
 	<path d="
 		M100,100
 		h700
@@ -88,9 +191,7 @@ source =
 		stroke="Bisque"
 		stroke-dasharray="100"
 		stroke-width="100"
-	/>
-</svg>`;
-
-
+	/>`;
+	
 // this method is called when your extension is deactivated
 export function deactivate() {}
