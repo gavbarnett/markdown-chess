@@ -71,17 +71,23 @@ function process (source: string)
 	var boardNumbers: boolean = parseBoardNumbers(source);
 	var boardLetters: boolean = parseBoardLetters(source);
 	var boardTitle: string = parseBoardTitle(source);
-	var boardTitle: string = parseBoardNotes(source);
+	var boardNotes: string = parseBoardNotes(source);
 	var boardMoves: string = parseBoardMoves(source);
 	return (
-	` style="text-align: `+ boardAlign + `;">` +
+	` style="text-align: center; margin: auto; display: block;">` +
+	`<div style="width: `+boardSize+`; margin:0 auto; border: 1px solid #666564; background: #312e2b; float:` +boardAlign+ `; clear: both;">` +
+	`<h3 style="text-transform:capitalize">`+ boardTitle +`</h3>` +
 	`<svg` +
-	`   width = "` + boardSize + `"` +
-	`   height = "` + boardSize + `"`+
+	`   width = "100%"` +
+	`   height = "100%"`+
 	`   viewBox = "0 0 1000 1000"` +
 	`>` +
 	generateBoard("") +	
-	`</svg>`);
+	`</svg>`+
+	`<p>`+boardMoves+`</p>` +
+	`<p>`+boardNotes+`</p>`+
+	`</div>`
+	);
 }
 
 function parseBoardLetters (input: string)
@@ -107,8 +113,8 @@ function parseBoardAlign (input: string)
 {
 	var stringVar: string = parseSettings (input, "align");
 	var returnVar = (stringVar.match(
-		/^[/s]*(left|center|right|justify)$/
-	) ?? ["center"])[0];
+		/^[/s]*(left|right|none)$/
+	) ?? ["none"])[0];
 	return returnVar;
 }
 
