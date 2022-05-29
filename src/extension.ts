@@ -73,6 +73,8 @@ function process (source: string)
 	var boardTitle: string = parseBoardTitle(source);
 	var boardNotes: string = parseBoardNotes(source);
 	var boardMoves: string = parseBoardMoves(source);
+	var boardGrid: [string[]] = parseBoardGrid(source);
+	
 	return (
 	` style="text-align: center; margin: auto; display: block;">` +
 	`<div style="width: `+boardSize+`; margin:0 auto; border: 1px solid #666564; background: #312e2b; float:` +boardAlign+ `; clear: both;">` +
@@ -160,6 +162,27 @@ function parseBoardNotes (input: string)
 	var stringVar: string = parseSettings (input, "notes") ?? "";
 	var returnVar = stringVar; //add checking later
 	return returnVar;
+}
+
+
+function parseBoardGrid (input: string)
+{
+	var regexExpression = new RegExp('(([|][^|]{2})+\r?\n)+');
+	var regexResult = input.match(regexExpression);
+	console.log(regexResult);
+	var boardLines:string[] = [];
+	var boardGrid:[string[]]= [[""]];
+	if ((regexResult !== null))
+	{
+		boardLines = regexResult[0].split(/\r?\n/)||[];
+		boardLines.forEach((name, index) => boardLines[index] = (boardLines[index].slice(1)||""));
+		boardLines.slice(0, -1).forEach((name, index) => boardGrid[index] = boardLines[index].split("|"));
+	}
+	//Force all lines to equal width
+	var boardWidth: number = boardGrid.reduce((t,e) => Math.max(t, e.length), 0);
+	boardGrid.forEach((name, index) => boardGrid[index] = boardGrid[index].concat(Array(boardWidth - boardGrid[index].length).fill("__")));
+	
+	return boardGrid;
 }
 
 function parseSettings (input: string, varName: string)
