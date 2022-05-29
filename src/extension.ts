@@ -84,7 +84,7 @@ function process (source: string)
 	`   height = "100%"`+
 	`   viewBox = "0 0 1000 1000"` +
 	`>` +
-	generateBoard("") +	
+	generateBoard(boardGrid) +	
 	`</svg>`+
 	`<p>`+boardMoves+`</p>` +
 	`<p>`+boardNotes+`</p>`+
@@ -197,30 +197,43 @@ function parseSettings (input: string, varName: string)
 	return returnVar;
 }
 
-const generateBoard = (/** @type {string} */ source: string) =>
-	source =
-	`<rect x="100" y="50" width="800" height="800" fill="OliveDrab" />
-	<path d="
-		M100,100
-		h700
-		M200,200
-		h700
-		M100,300
-		h700
-		M200,400
-		h700
-		M100,500
-		h700
-		M200,600
-		h700
-		M100,700
-		h700
-		M200,800
-		h700" 
-		stroke="Bisque"
-		stroke-dasharray="100"
-		stroke-width="100"
-	/>`;
+function generateBoard(boardGrid: [string[]])
+{
+	const gridSize = 100;
+	var boardWidth: number = boardGrid[0].length;
+	var boardHeight: number = boardGrid.length;
+	var returnHtml: string =
+	`<rect `+
+		`x="100" y="50 "`+
+		`width="` + (gridSize*boardWidth).toString() + `" `+
+		`height="` + (gridSize*boardHeight).toString() + `" `+
+		`fill="OliveDrab"`+
+	`/> `;
 	
+	returnHtml += `<path d="`;
+	var offsetType = (boardWidth % 2 === boardHeight % 2);
+	for (var h = 0; h < boardHeight ;h++)
+	{
+		returnHtml += `M`;
+		if ((h % 2 === 0)  === offsetType)
+		{
+			returnHtml += (gridSize*1).toString() +`,`;
+			returnHtml += (gridSize*(h+1)).toString() +` `;
+			returnHtml += `h`+(gridSize*(boardWidth)).toString() + ` `; 
+		} else {
+			returnHtml += (gridSize*2).toString() +`,`;
+			returnHtml += (gridSize*(h+1)).toString() +` `;
+			returnHtml += `h`+(gridSize*(boardWidth-1)).toString() + ` `; 
+		}
+	}
+	returnHtml += `" ` +
+	`stroke="Bisque" ` +
+	`stroke-dasharray="` + gridSize + `" ` +
+	`stroke-width="` + gridSize + `" ` +
+	`/>`;
+	console.log(returnHtml);
+	return(returnHtml);
+}
+
 // this method is called when your extension is deactivated
 export function deactivate() {}
