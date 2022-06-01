@@ -232,46 +232,68 @@ function generateBoard(boardGrid: [string[]])
 	`stroke-dasharray="` + gridSize + `" ` +
 	`stroke-width="` + gridSize + `" ` +
 	`/>`;
-	returnHtml +=`<use x="100" y="50" 	xlink:href="#chessblackrook"/>`;
-	returnHtml +=`<use x="200" y="50" 	xlink:href="#chessblackbishop"/>`;
-	returnHtml +=`<use x="300" y="50" 	xlink:href="#chessblackknight"/>`;
-	returnHtml +=`<use x="400" y="50" 	xlink:href="#chessblackqueen"/>`;
-	returnHtml +=`<use x="500" y="50" 	xlink:href="#chessblackking"/>`;
-	returnHtml +=`<use x="600" y="50" 	xlink:href="#chessblackknight"/>`;
-	returnHtml +=`<use x="700" y="50" 	xlink:href="#chessblackbishop"/>`;
-	returnHtml +=`<use x="800" y="50" 	xlink:href="#chessblackrook"/>`;
-
-	returnHtml +=`<use x="100" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="200" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="300" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="400" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="500" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="600" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="700" y="150" 	xlink:href="#chessblackpawn"/>`;
-	returnHtml +=`<use x="800" y="150" 	xlink:href="#chessblackpawn"/>`;
-	
-	returnHtml +=`<use x="100" y="750" 	xlink:href="#chesswhiterook"/>`;
-	returnHtml +=`<use x="200" y="750" 	xlink:href="#chesswhitebishop"/>`;
-	returnHtml +=`<use x="300" y="750" 	xlink:href="#chesswhiteknight"/>`;
-	returnHtml +=`<use x="400" y="750" 	xlink:href="#chesswhitequeen"/>`;
-	returnHtml +=`<use x="500" y="750" 	xlink:href="#chesswhiteking"/>`;
-	returnHtml +=`<use x="600" y="750" 	xlink:href="#chesswhiteknight"/>`;
-	returnHtml +=`<use x="700" y="750" 	xlink:href="#chesswhitebishop"/>`;
-	returnHtml +=`<use x="800" y="750" 	xlink:href="#chesswhiterook"/>`;
-
-	returnHtml +=`<use x="100" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="200" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="300" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="400" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="500" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="600" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="700" y="650" 	xlink:href="#chesswhitepawn"/>`;
-	returnHtml +=`<use x="800" y="650" 	xlink:href="#chesswhitepawn"/>`;
-
-
-
+	for (var h = 0; h < boardHeight; h++)
+	{
+		for (var w = 0; w < boardWidth; w++)
+		{
+			var piece: string = parsePiece(boardGrid[h][w]);
+			if (piece != "")
+			{
+				returnHtml +=`<use 
+				x="`+ (gridSize + w*gridSize).toString() +`" 
+				y="`+ (h*gridSize + gridSize/2).toString() +`" 
+				xlink:href="#` + piece +`"/>`;
+			}
+		}
+	}
 	console.log(returnHtml);
 	return(returnHtml);
+}
+
+function parsePiece(pieceDiagramShort: string)
+{
+	var svgPiece = "";
+	switch(pieceDiagramShort.toLowerCase())
+	{
+		case("kl"):
+			svgPiece = "chesswhiteking";
+		break;
+		case("ql"):
+			svgPiece = "chesswhitequeen";
+		break;
+		case("rl"):
+			svgPiece = "chesswhiterook";
+		break;
+		case("bl"):
+			svgPiece = "chesswhitebishop";
+		break;
+		case("nl"):
+			svgPiece = "chesswhiteknight";
+		break;
+		case("pl"):
+			svgPiece = "chesswhitepawn";
+		break;
+
+		case("kd"):
+			svgPiece = "chessblackking";
+		break;
+		case("qd"):
+			svgPiece = "chessblackqueen";
+		break;
+		case("rd"):
+			svgPiece = "chessblackrook";
+		break;
+		case("bd"):
+			svgPiece = "chessblackbishop";
+		break;
+		case("nd"):
+			svgPiece = "chessblackknight";
+		break;
+		case("pd"):
+			svgPiece = "chessblackpawn";
+		break;
+	}
+	return (svgPiece);
 }
 
 function definedChessMaterial()
