@@ -167,7 +167,7 @@ function parseBoardNotes (input: string)
 
 function parseBoardGrid (input: string)
 {
-	var regexExpression = new RegExp('(([|][^|]{2})+\r?\n)+');
+	var regexExpression = new RegExp('[|][^|\r\n]{0,5}((\r?\n)?[|][^|\r\n]{0,5})+');
 	var regexResult = input.match(regexExpression);
 	console.log(regexResult);
 	var boardLines:string[] = [];
@@ -176,7 +176,7 @@ function parseBoardGrid (input: string)
 	{
 		boardLines = regexResult[0].split(/\r?\n/)||[];
 		boardLines.forEach((name, index) => boardLines[index] = (boardLines[index].slice(1)||""));
-		boardLines.slice(0, -1).forEach((name, index) => boardGrid[index] = boardLines[index].split("|"));
+		boardLines.forEach((name, index) => boardGrid[index] = boardLines[index].split("|"));
 	}
 	//Force all lines to equal width
 	var boardWidth: number = boardGrid.reduce((t,e) => Math.max(t, e.length), 0);
@@ -246,7 +246,6 @@ function generateBoard(boardGrid: [string[]])
 			}
 		}
 	}
-	console.log(returnHtml);
 	return(returnHtml);
 }
 
