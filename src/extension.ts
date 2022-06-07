@@ -314,7 +314,7 @@ function parseHighlight(pieceDiagramShort: string)
 	/* eslint-disable */
 	const highlightDictionary = {
 		"*" : "chessHighlightSquare",
-		"!" : "chessAttackingSquare",		
+		"!" : "chessAttackingSquare",
 	};
 	/* eslint-enabled */
 	
