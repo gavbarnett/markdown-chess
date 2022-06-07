@@ -236,6 +236,17 @@ function generateBoard(boardGrid: [string[]])
 	{
 		for (var w = 0; w < boardWidth; w++)
 		{
+			var highlight: string = parseHighlight(boardGrid[h][w]);
+			if (highlight !== "")
+			{
+				returnHtml += `<rect `+
+					`x="`+ (w*gridSize + gridSize/2).toString() +`" `+
+					`y="`+ (h*gridSize + gridSize/2).toString() +`" `+ 
+					`height="` + gridSize + `" `+
+					`width="` + gridSize + `" `+
+					`style=` + highlightSquare(highlight) +
+					`/>`;
+			}
 			var piece: string = parsePiece(boardGrid[h][w], gridSize);
 			if (piece !== "")
 			{
@@ -294,6 +305,44 @@ function parsePiece(pieceDiagramShort: string, gridSize: number)
 		svgPiece += "_" + gridSize;
 	}
 	return (svgPiece);
+}
+
+function parseHighlight(pieceDiagramShort: string)
+{
+	var svgHighlight = "";
+	var positionStr = pieceDiagramShort.toLowerCase();
+	/* eslint-disable */
+	const highlightDictionary = {
+		"*" : "chessHighlightSquare",
+		"!" : "chessAttackingSquare",		
+	};
+	/* eslint-enabled */
+	
+	for (const [key, value] of Object.entries(highlightDictionary)) {
+		if (positionStr.includes(key))
+		{
+			svgHighlight = value;
+		}
+	}
+	return (svgHighlight);
+}
+
+function highlightSquare(highlight: string)
+{
+	var highlightFormat = "";
+	const pieceDictionary = {
+		"chessHighlightSquare" : `"fill:rgb(0,204,204);stroke-width:0;fill-opacity:0.5;"`,
+		"chessAttackingSquare" : `"fill:rgb(235, 97, 80);stroke-width:0;fill-opacity:0.8;"`,
+	};
+	
+	for (const [key, value] of Object.entries(pieceDictionary)) {
+		if (highlight == key)
+		{
+			highlightFormat = value;
+		}
+	}
+	return (highlightFormat);
+
 }
 
 function definedChessMaterial(gridSize : number)
