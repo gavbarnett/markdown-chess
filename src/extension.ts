@@ -247,6 +247,11 @@ function generateBoard(boardGrid: [string[]])
 					`style=` + highlightSquare(highlight) +
 					`/>`;
 			}
+			var hint: string = parseHints(boardGrid[h][w], gridSize);
+			if (hint !== "")
+			{
+				returnHtml += hintSquare(hint, (w+1)*gridSize, (h+1)*gridSize, gridSize);
+			}
 			var piece: string = parsePiece(boardGrid[h][w], gridSize);
 			if (piece !== "")
 			{
@@ -342,6 +347,48 @@ function highlightSquare(highlight: string)
 		}
 	}
 	return (highlightFormat);
+
+}
+
+function parseHints(pieceDiagramShort: string, gridSize: number)
+{
+	var svgHint = "";
+	var positionStr = pieceDiagramShort.toLowerCase();
+	/* eslint-disable */
+	const hintDictionary = {
+		"." : "chessHint",
+		"o" : "chessCaptureHint"
+	};
+	/* eslint-enabled */
+	
+	for (const [key, value] of Object.entries(hintDictionary)) {
+		if (positionStr.includes(key))
+		{
+			svgHint = value;
+			if (parsePiece(pieceDiagramShort, gridSize))
+			{
+				svgHint = "chessCaptureHint"
+			}
+		}
+	}
+	return (svgHint);
+}
+
+function hintSquare(hint: string, x: number, y: number, gridSize: number)
+{
+	var hintDesign = "";
+	const pieceDictionary = {
+		"chessHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.2+`" stroke="black" stroke-width="0" fill="black" fill-opacity="0.3" />`,
+		"chessCaptureHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.45+`" stroke="black" stroke-width="`+gridSize/10+`" fill-opacity="0" stroke-opacity="0.3" />`,
+	};
+	
+	for (const [key, value] of Object.entries(pieceDictionary)) {
+		if (hint == key)
+		{
+			hintDesign = value;
+		}
+	}
+	return (hintDesign);
 
 }
 
