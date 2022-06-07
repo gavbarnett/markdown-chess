@@ -253,20 +253,34 @@ function parsePiece(pieceDiagramShort: string, gridSize: number)
 {
 	var svgPiece = "";
 	var positionStr = pieceDiagramShort.toLowerCase();
+	/* eslint-disable */
 	const pieceDictionary = {
 		"kl" : "chesswhiteking",
+		"♔" : "chesswhiteking",
 		"ql" : "chesswhitequeen",
+		"♕" : "chesswhitequeen",
 		"rl" : "chesswhiterook",
+		"♖" : "chesswhiterook",
 		"bl" : "chesswhitebishop",
+		"♗" : "chesswhitebishop",
 		"nl" : "chesswhiteknight",
+		"♘" : "chesswhiteknight",
 		"pl" : "chesswhitepawn",
+		"♙" : "chesswhitepawn",
 		"kd" : "chessblackking",
+		"♚" : "chessblackking",
 		"qd" : "chessblackqueen",
+		"♛" : "chessblackqueen",
 		"rd" : "chessblackrook",
+		"♜" : "chessblackrook",
 		"bd" : "chessblackbishop",
+		"♝" : "chessblackbishop",
 		"nd" : "chessblackknight",
-		"pd" : "chessblackpawn"	
+		"♞" : "chessblackknight",
+		"pd" : "chessblackpawn",
+		"♟" : "chessblackpawn"
 	};
+	/* eslint-enable */
 	
 	for (const [key, value] of Object.entries(pieceDictionary)) {
 		if (positionStr.includes(key))
