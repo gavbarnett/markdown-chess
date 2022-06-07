@@ -252,47 +252,30 @@ function generateBoard(boardGrid: [string[]])
 function parsePiece(pieceDiagramShort: string, gridSize: number)
 {
 	var svgPiece = "";
-	switch(pieceDiagramShort.toLowerCase())
-	{
-		case("kl"):
-			svgPiece = "chesswhiteking";
-		break;
-		case("ql"):
-			svgPiece = "chesswhitequeen";
-		break;
-		case("rl"):
-			svgPiece = "chesswhiterook";
-		break;
-		case("bl"):
-			svgPiece = "chesswhitebishop";
-		break;
-		case("nl"):
-			svgPiece = "chesswhiteknight";
-		break;
-		case("pl"):
-			svgPiece = "chesswhitepawn";
-		break;
-
-		case("kd"):
-			svgPiece = "chessblackking";
-		break;
-		case("qd"):
-			svgPiece = "chessblackqueen";
-		break;
-		case("rd"):
-			svgPiece = "chessblackrook";
-		break;
-		case("bd"):
-			svgPiece = "chessblackbishop";
-		break;
-		case("nd"):
-			svgPiece = "chessblackknight";
-		break;
-		case("pd"):
-			svgPiece = "chessblackpawn";
-		break;
+	var positionStr = pieceDiagramShort.toLowerCase();
+	const pieceDictionary = {
+		"kl" : "chesswhiteking",
+		"ql" : "chesswhitequeen",
+		"rl" : "chesswhiterook",
+		"bl" : "chesswhitebishop",
+		"nl" : "chesswhiteknight",
+		"pl" : "chesswhitepawn",
+		"kd" : "chessblackking",
+		"qd" : "chessblackqueen",
+		"rd" : "chessblackrook",
+		"bd" : "chessblackbishop",
+		"nd" : "chessblackknight",
+		"pd" : "chessblackpawn"	
+	};
+	
+	for (const [key, value] of Object.entries(pieceDictionary)) {
+		if (positionStr.includes(key))
+		{
+			svgPiece = value;
+		}
 	}
-	if (svgPiece != "")
+	
+	if (svgPiece !== "")
 	{
 		svgPiece += "_" + gridSize;
 	}
