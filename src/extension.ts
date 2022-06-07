@@ -237,7 +237,7 @@ function generateBoard(boardGrid: [string[]])
 		for (var w = 0; w < boardWidth; w++)
 		{
 			var piece: string = parsePiece(boardGrid[h][w], gridSize);
-			if (piece != "")
+			if (piece !== "")
 			{
 				returnHtml +=`<use
 				x="`+ (w*gridSize + gridSize/2).toString() +`" 
