@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 
 					if (token.nesting === 1) {
-						return `<div class="${pluginKeyword}"${process(src)}`;
+						return `<div class="${pluginKeyword}"${process(src)} `;
 					} else {
 						return '</div>';
 					}
@@ -75,21 +75,24 @@ function process (source: string)
 	var boardMoves: string = parseBoardMoves(source);
 	var boardGrid: [string[]] = parseBoardGrid(source);
 	
-	return (
-	` style="text-align: center; margin: auto; display: block;">` +
-	`<div style="width: `+boardSize+`; margin:0 auto; border: 1px solid #666564; background: #312e2b; float:` +boardAlign+ `; clear: both;">` +
-	`<h3 style="text-transform:capitalize">`+ boardTitle +`</h3>` +
-	`<svg` +
-	`   width = "100%"` +
-	`   height = "100%"`+
-	`   viewBox = "0 0 1000 1000"` +
-	`>` +
-	generateBoard(boardGrid) +	
-	`</svg>`+
-	`<p>`+boardMoves+`</p>` +
-	`<p>`+boardNotes+`</p>`+
-	`</div>`
-	);
+	var htmlString: string = ``;
+	
+	htmlString =
+		`style="text-align: center; margin: auto; display: block;">` +
+		`<div style="width: `+boardSize+`; margin:0 auto; border: 1px solid #666564; background: #312e2b; float:` +boardAlign+ `; clear: both;">` +
+		`<h3 style="text-transform:capitalize">`+ boardTitle +`</h3>` +
+		`<svg` +
+		`   width = "100%"` +
+		`   height = "100%"`+
+		`   viewBox = "0 0 1000 1000"` +
+		`>` +
+		generateBoard(boardGrid) +
+		`</svg>`+
+		`<p>`+boardMoves+`</p>` +
+		`<p>`+boardNotes+`</p>`+
+		`</div>`;
+	
+	return (htmlString);
 }
 
 function parseBoardLetters (input: string)
