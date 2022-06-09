@@ -8,13 +8,19 @@
 	width: 75%;
 	float: none;
 	margin:0 auto;
+	padding: 0;
 	border: 1px solid #666564;
 	background: #312e2b;
 	clear: both;
+	
 }
 
 .chess-title {
 	text-transform:capitalize;
+	font-size: large;
+	background-color: #666564;
+	display: block;
+	width: 100%;
 }
 
 .chess-highlight-1 {

@@ -79,7 +79,7 @@ function process (source: string)
 	
 	htmlString =
 		`<div class ="chess-background" style="width: `+boardSize+`; float: ` +boardAlign+ `;">` +
-		`<h3 class="chess-title">`+ boardTitle +`</h3>` +
+		`<span class="chess-title">`+ boardTitle +`</span>` +
 		`<svg` +
 		`   width = "100%"` +
 		`   height = "100%"`+
