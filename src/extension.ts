@@ -81,6 +81,7 @@ function process (source: string)
 		`<div class ="chess-background" style="width: `+boardSize+`; float: ` +boardAlign+ `;">` +
 		`<span class="chess-title">`+ boardTitle +`</span>` +
 		`<svg` +
+		`   data-theme="chess-board-green"`+
 		`   width = "100%"` +
 		`   height = "100%"`+
 		`   viewBox = "0 0 1000 1000"` +
@@ -209,7 +210,7 @@ function generateBoard(boardGrid: [string[]])
 		`x="` + (gridSize/2).toString() + `" y="` + (gridSize/2).toString() + `" `+
 		`width="` + (gridSize*boardWidth-1).toString() + `" `+
 		`height="` + (gridSize*boardHeight-1).toString() + `" `+
-		`fill="OliveDrab"`+
+		`style="fill:var(--chess-dark-square);"`+
 	`/> `;
 	returnHtml += definedChessMaterial(gridSize);
 
@@ -230,7 +231,7 @@ function generateBoard(boardGrid: [string[]])
 		}
 	}
 	returnHtml += `" ` +
-	`stroke="Bisque" ` +
+	`style="stroke:var(--chess-light-square);" ` +
 	`stroke-dasharray="` + gridSize + `" ` +
 	`stroke-width="` + gridSize + `" ` +
 	`/>`;
@@ -380,8 +381,8 @@ function hintSquare(hint: string, x: number, y: number, gridSize: number)
 {
 	var hintDesign = "";
 	const pieceDictionary = {
-		"chessHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.2+`" stroke="black" stroke-width="0" fill="black" fill-opacity="0.3" />`,
-		"chessCaptureHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.45+`" stroke="black" stroke-width="`+gridSize/10+`" fill-opacity="0" stroke-opacity="0.3" />`,
+		"chessHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.2+`" style="fill:var(--chess-hint1);" stroke-width="0" />`,
+		"chessCaptureHint" : `<circle cx="`+x+`" cy="`+y+`" r="`+gridSize*0.45+`" style="stroke:var(--chess-hint1);" stroke-width="`+gridSize/10+`" fill-opacity="0" />`,
 	};
 	
 	for (const [key, value] of Object.entries(pieceDictionary)) {
