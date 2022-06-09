@@ -81,7 +81,7 @@ function process (source: string)
 		`<div class ="chess-background" style="width: `+boardSize+`; float: ` +boardAlign+ `;">` +
 		`<span class="chess-title">`+ boardTitle +`</span>` +
 		`<svg` +
-		`   data-theme="chess-board-green"`+
+		`   data-theme="`+boardTheme+`"`+
 		`   width = "100%"` +
 		`   height = "100%"`+
 		`   viewBox = "0 0 1000 1000"` +
@@ -109,8 +109,9 @@ function parseBoardTheme (input: string)
 {
 	var stringVar: string = parseSettings (input, "theme");
 	var returnVar = (stringVar.match(
-		/^[/s]*(base|dark|light)$/
-	) ?? ["base"])[0];
+		/^[/s]*(green|brown)$/
+	) ?? ["green"])[0];
+	returnVar = "chess-board-"+ returnVar;
 	return returnVar;
 }
 
