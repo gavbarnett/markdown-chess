@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const highlight = md.options.highlight;
 			md.options.highlight = (code: any, lang: string) => {
 				if (lang && lang.match(/\bchess\b/i)) {
-					return `<pre style="all:unset;"><div class="${pluginKeyword}"${process(code)}</div></pre>`;
+					return `<pre style="all:unset;"><div class="${pluginKeyword}">${process(code)}</div></pre>`;
 				}
 				return highlight(code, lang);
 			};
@@ -78,9 +78,8 @@ function process (source: string)
 	var htmlString: string = ``;
 	
 	htmlString =
-		`style="text-align: center; margin: auto; display: block;">` +
-		`<div style="width: `+boardSize+`; margin:0 auto; border: 1px solid #666564; background: #312e2b; float:` +boardAlign+ `; clear: both;">` +
-		`<h3 style="text-transform:capitalize">`+ boardTitle +`</h3>` +
+		`<div class ="chess-background" style="width: `+boardSize+`; float: ` +boardAlign+ `;">` +
+		`<h3 class="chess-title">`+ boardTitle +`</h3>` +
 		`<svg` +
 		`   width = "100%"` +
 		`   height = "100%"`+
@@ -247,7 +246,7 @@ function generateBoard(boardGrid: [string[]])
 					`y="`+ (h*gridSize + gridSize/2).toString() +`" `+ 
 					`height="` + gridSize + `" `+
 					`width="` + gridSize + `" `+
-					`style=` + highlightSquare(highlight) +
+					`class=` + highlightSquare(highlight) +
 					`/>`;
 			}
 			var hint: string = parseHints(boardGrid[h][w], gridSize);
@@ -339,8 +338,8 @@ function highlightSquare(highlight: string)
 {
 	var highlightFormat = "";
 	const pieceDictionary = {
-		"chessHighlightSquare" : `"fill:rgb(0,204,204);stroke-width:0;fill-opacity:0.5;"`,
-		"chessAttackingSquare" : `"fill:rgb(235, 97, 80);stroke-width:0;fill-opacity:0.8;"`,
+		"chessHighlightSquare" : `"chess-highlight-1"`,
+		"chessAttackingSquare" : `"chess-highlight-2"`,
 	};
 	
 	for (const [key, value] of Object.entries(pieceDictionary)) {

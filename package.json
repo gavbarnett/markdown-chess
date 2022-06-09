@@ -20,6 +20,9 @@
 				"command": "markdown-chess.helloWorld",
 				"title": "Hello World"
 			}
+		],
+		"markdown.previewStyles": [
+			"./style.css"
 		]
 	},
 	"scripts": {

@@ -1,0 +1,30 @@
+.chess {
+	text-align: center;
+	margin: auto;
+	display: block;
+}
+
+.chess-background {
+	width: 75%;
+	float: none;
+	margin:0 auto;
+	border: 1px solid #666564;
+	background: #312e2b;
+	clear: both;
+}
+
+.chess-title {
+	text-transform:capitalize;
+}
+
+.chess-highlight-1 {
+	fill:rgb(0,204,204);
+	stroke-width:0;
+	fill-opacity:0.5;
+}
+
+.chess-highlight-2 {
+	fill:rgb(235, 97, 80);
+	stroke-width:0;
+	fill-opacity:0.8;
+}
